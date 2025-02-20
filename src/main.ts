@@ -6,7 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors({
-    origin: 'http://localhost:3000', // Sadece Next.js için izin ver
+    origin: ['http://localhost:3000', 'https://paragraphapi.onrender.com'], // Birden fazla domain ekledik
     credentials: true, // Çerezleri (cookies) desteklemek için
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Kullanılabilir HTTP metotları
     allowedHeaders: ['Content-Type', 'Authorization'], // Kullanılabilir header'lar

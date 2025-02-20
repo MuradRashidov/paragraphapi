@@ -20,6 +20,7 @@ import { JwtModule } from '@nestjs/jwt';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/graphql/schema.gql'),
+      csrfPrevention: false, // CSRF korumasını devre dışı bırak
     }),
     ConfigModule.forRoot({
       isGlobal:true

@@ -6,7 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors({
-    origin: ['http://localhost:3000', 'https://paragraphapi.onrender.com'], // Birden fazla domain ekledik
+    origin: ['http://localhost:3000', 'https://paragraphapi.onrender.com','https://blogpost-paragraphui-re93.vercel.app'], // Birden fazla domain ekledik
     credentials: true, // Çerezleri (cookies) desteklemek için
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Kullanılabilir HTTP metotları
     allowedHeaders: ['Content-Type', 'Authorization'], // Kullanılabilir header'lar

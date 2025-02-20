@@ -16,7 +16,7 @@ export class AuthController {
     console.log(`User: ${req.user.email}`);
     const userData = await this.authService.login(req.user);
     res.redirect(
-      `http://localhost:3000/api/auth/google/callback?userId=${userData.id}&name=${userData.name}&avatar=${userData.avatar}&token=${userData.token}`,
+      `https://blogpost-paragraphui-re93.vercel.app/api/auth/google/callback?userId=${userData.id}&name=${userData.name}&avatar=${userData.avatar}&token=${userData.token}`,
     );
   }
 

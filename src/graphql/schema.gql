@@ -1,0 +1,91 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: Int!
+  name: String!
+  email: String!
+  bio: String
+  avatar: String
+  posts: [Post!]!
+  comments: [CommentEntity!]!
+}
+
+type CommentEntity {
+  id: Int!
+  content: String!
+  post: Post!
+  author: User!
+  createdAt: String!
+}
+
+type Tag {
+  id: Int!
+  name: String!
+  posts: [Post!]!
+}
+
+type Post {
+  id: Int!
+  title: String!
+  slug: String
+  thumbnail: String
+  content: String!
+  published: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  author: User!
+  tags: [Tag!]!
+  comments: [CommentEntity!]!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type AuthResponse {
+  id: Int!
+  name: String!
+  avatar: String
+  token: String!
+}
+
+type Query {
+  posts(skip: Float, take: Float): [Post!]!
+  postCount: Int!
+  getPostById(id: Int!): Post!
+  user(id: Int!): User!
+  getPostComments(postId: Int!, take: Int = 12, skip: Int = 0): [CommentEntity!]!
+  getCommentCount(postId: Int!): Int!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: Int!): User!
+  signIn(signInInput: SignInInput!): AuthResponse!
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  password: String!
+  bio: String
+  avatar: String
+}
+
+input UpdateUserInput {
+  name: String
+  email: String
+  password: String
+  bio: String
+  avatar: String
+  id: Int!
+}
+
+input SignInInput {
+  email: String!
+  password: String!
+}

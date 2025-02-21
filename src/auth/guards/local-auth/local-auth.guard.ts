@@ -11,7 +11,7 @@ export class LocalAuthGuard extends AuthGuard('local') {
 
     // ✅ GraphQL Mutation'a gönderilen input argümanlarını al
     const args = ctx.getArgs();
-    console.log('GraphQL Args:', args);
+   // console.log('GraphQL Args:', args);
 
     // 📌 request.body'ye `signInInput` bilgisini ekle
     request.body = { ...args.signInInput };

@@ -65,6 +65,7 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
+  createComment(createCommentInput: CreateCommentInput!): CommentEntity!
   signIn(signInInput: SignInInput!): AuthResponse!
 }
 
@@ -83,6 +84,11 @@ input UpdateUserInput {
   bio: String
   avatar: String
   id: Int!
+}
+
+input CreateCommentInput {
+  postId: Int!
+  content: String!
 }
 
 input SignInInput {

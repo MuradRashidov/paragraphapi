@@ -37,7 +37,7 @@ model Post {
   tags      Tag[]     @relation("PostTags")
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  likes      Like[]
+  likes     Like[]
 }
 
 model Comment {
@@ -67,4 +67,6 @@ model Like {
   post      Post     @relation(fields: [postId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([userId, postId])
 }

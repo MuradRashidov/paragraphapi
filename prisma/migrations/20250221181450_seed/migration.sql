@@ -5,7 +5,7 @@ CREATE TABLE "User" (
     "email" TEXT NOT NULL,
     "bio" TEXT,
     "avatar" TEXT,
-    "password" TEXT NOT NULL,
+    "password" TEXT,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL
 );
@@ -64,10 +64,16 @@ CREATE TABLE "_PostTags" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Post_slug_key" ON "Post"("slug");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Tag_name_key" ON "Tag"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Like_userId_postId_key" ON "Like"("userId", "postId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_PostTags_AB_unique" ON "_PostTags"("A", "B");

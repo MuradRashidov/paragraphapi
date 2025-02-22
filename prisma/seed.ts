@@ -1,15 +1,18 @@
 import { faker } from '@faker-js/faker';
 import { PrismaClient } from '@prisma/client';
+import { hash } from 'argon2';
 const prisma = new PrismaClient();
 async function main() {
   const generateSlug = (str: string) => {
     str.toLowerCase().trim();
   };
+  const defaultPassword = await hash('12345');
   const users = Array.from({ length: 10 }).map((_, index) => ({
     name: `${index} ${faker.person.fullName()}`,
     email: `${index}${faker.internet.email()}`,
     bio: faker.lorem.sentence(),
     avatar: faker.image.avatar(),
+    password: defaultPassword,
   }));
   await prisma.user.createMany({ data: users });
 
@@ -21,7 +24,7 @@ async function main() {
     authorId: faker.number.int({ min: 1, max: 10 }),
     published: true,
   }));
- await Promise.all(
+  await Promise.all(
     posts.map(async (post) => {
       await prisma.post.create({
         data: {

@@ -18,8 +18,6 @@ export class JwtStrategy extends PassportStrategy(Strategy,"jwt") {
     });
   }
   validate(payload: JwtPayload) {
-    console.log(11111);
-
     const userId = payload.sub;
     return this.authService.validateJwtUser(userId);
   }

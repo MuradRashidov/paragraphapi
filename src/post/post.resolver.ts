@@ -23,13 +23,13 @@ export class PostResolver {
 
     return this.postService.findAll({ skip, take });
   }
-  @Query(() => Int,{name:"postCount"})
-  count(){
-    return this.postService.count()
+  @Query(() => Int, { name: 'postCount' })
+  count() {
+    return this.postService.count();
   }
   @Query(() => Post)
-  getPostById(@Args("id",{type:() => Int}) id:number){
-     return this.postService.getPostById(id)
+  getPostById(@Args('id', { type: () => Int }) id: number) {
+    return this.postService.getPostById(id);
   }
   @UseGuards(JwtAuthGuard)
   @Query(() => [Post])
@@ -63,4 +63,24 @@ export class PostResolver {
     return this.postService.create({ createPostInput, authorId });
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Mutation(() => Post)
+  updatePost(
+    @Context() context,
+    @Args('updatePostInput') updatePostInput: UpdatePostInput,
+  ) {
+    const authorId = context.req.user.id;
+
+    return this.postService.update({ updatePostInput, authorId });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Mutation(() => Boolean)
+  deletePost(
+    @Context() context,
+    @Args('postId', { type: () => Int }) postId: number,
+  ) {
+    const userId = context.req.user.id;
+    return this.postService.delete({ postId, userId });
+  }
 }

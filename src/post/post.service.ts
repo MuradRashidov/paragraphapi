@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreatePostInput } from './dto/create-post.input';
 import { UpdatePostInput } from './dto/update-post.input';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -17,14 +17,17 @@ export class PostService {
     return this.prisma.post.findMany({
       skip,
       take,
-      orderBy:{createdAt:"desc"}
+      orderBy: { createdAt: 'desc' },
     });
   }
   count() {
     return this.prisma.post.count();
   }
   getPostById(id: number) {
-    return this.prisma.post.findUnique({ where: { id },include:{author:true,tags:true} });
+    return this.prisma.post.findUnique({
+      where: { id },
+      include: { author: true, tags: true },
+    });
   }
   async findByUser({
     userId,
@@ -91,5 +94,53 @@ export class PostService {
         },
       },
     });
+  }
+  async update({
+    updatePostInput,
+    authorId,
+  }: {
+    updatePostInput: UpdatePostInput;
+    authorId: number;
+  }) {
+    const updatedPost = await this.prisma.post.findUnique({
+      where: {
+        id: updatePostInput.postId,
+        authorId,
+      },
+    });
+    if (!updatedPost) throw new UnauthorizedException('Unauthorized');
+    const { postId, ...data } = updatePostInput;
+    return await this.prisma.post.update({
+      where: { id: updatePostInput.postId },
+      data: {
+        ...data,
+        tags: updatePostInput.tags?.length
+          ? {
+              set: [],
+              connectOrCreate: updatePostInput.tags.map((tag) => ({
+                where: { name: tag },
+                create: { name: tag },
+              })),
+            }
+          : undefined,
+      },
+    });
+  }
+
+  async delete({ postId, userId }: { postId: number; userId: number }) {
+    const authorIdMatched = await this.prisma.post.findUnique({
+      where: { id: postId, authorId: userId },
+    });
+
+    if (!authorIdMatched) throw new UnauthorizedException();
+
+    const result = await this.prisma.post.delete({
+      where: {
+        id: postId,
+        authorId: userId,
+      },
+    });
+
+    return !!result;
   }
 }

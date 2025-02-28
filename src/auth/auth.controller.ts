@@ -16,7 +16,7 @@ export class AuthController {
     console.log(`User: ${req.user.email}`);
     const userData = await this.authService.login(req.user);
     res.redirect(
-      `https://blogpost-paragraphui-re93.vercel.app/api/auth/google/callback?userId=${userData.id}&name=${userData.name}&avatar=${userData.avatar}&token=${userData.token}`,
+      `https://paragraphblog.netlify.app/api/auth/google/callback?userId=${userData.id}&name=${userData.name}&avatar=${userData.avatar}&token=${userData.token}`,
     );
   }
 

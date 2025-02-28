@@ -7,7 +7,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors({
     origin: ['http://localhost:3000', "https://paragraphblog.netlify.app" ,'https://paragraphapi.onrender.com','https://blogpost-paragraphui-re93.vercel.app',"https://blogpost-paragraphui.vercel.app/"], // Birden fazla domain ekledik
-    credentials: true, // Çerezleri (cookies) desteklemek için
+    credentials: true, // Çerezleri (cookies) desteklemek için.
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Kullanılabilir HTTP metotları
     allowedHeaders: ['Content-Type', 'Authorization'], // Kullanılabilir header'lar
   });

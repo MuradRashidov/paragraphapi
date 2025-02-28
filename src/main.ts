@@ -1,10 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { ArgumentsHost, ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalFilters(new (class {
+    catch(exception: any, host: ArgumentsHost) {
+      console.error('Hata:', exception);
+    }
+  })());
   app.enableCors({
     origin: ['http://localhost:3000', "https://paragraphblog.netlify.app" ,'https://paragraphapi.onrender.com','https://blogpost-paragraphui-re93.vercel.app',"https://blogpost-paragraphui.vercel.app/"], // Birden fazla domain ekledik
     credentials: true, // Çerezleri (cookies) desteklemek için.
